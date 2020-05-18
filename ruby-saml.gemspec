@@ -24,27 +24,7 @@ Gem::Specification.new do |s|
   s.summary = %q{SAML Ruby Tookit}
   s.test_files = `git ls-files test/*`.split("\n")
 
-  # Because runtime dependencies are determined at build time, we cannot make
-  # Nokogiri's version dependent on the Ruby version, even though we would
-  # have liked to constrain Ruby 1.8.7 to install only the 1.5.x versions.
-  if defined?(JRUBY_VERSION)
-    if JRUBY_VERSION < '9.2.0.0'
-      s.add_runtime_dependency('nokogiri', '>= 1.8.2', '<= 1.8.5')
-      s.add_runtime_dependency('jruby-openssl', '>= 0.9.8')
-    else
-      s.add_runtime_dependency('nokogiri', '>= 1.8.2')
-    end
-  elsif RUBY_VERSION < '1.9'
-    s.add_runtime_dependency('uuid')
-    s.add_runtime_dependency('nokogiri', '<= 1.5.11')
-  elsif RUBY_VERSION < '2.1'
-    s.add_runtime_dependency('nokogiri', '>= 1.5.10', '<= 1.6.8.1')
-  elsif RUBY_VERSION < '2.3'
-    s.add_runtime_dependency('nokogiri', '>= 1.9.1', '<= 1.10.0')
-  else
-    s.add_runtime_dependency('nokogiri', '>= 1.10.5')
-  end
-
+  s.add_runtime_dependency('nokogiri', '>= 1.10.5')
   s.add_development_dependency('coveralls')
   s.add_development_dependency('minitest', '~> 5.5')
   s.add_development_dependency('mocha',    '~> 0.14')
@@ -53,22 +33,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency('simplecov')
   s.add_development_dependency('systemu',  '~> 2')
   s.add_development_dependency('timecop',  '<= 0.6.0')
+  s.add_development_dependency('pry-byebug')
 
-  if defined?(JRUBY_VERSION)
-    # All recent versions of JRuby play well with pry
-    s.add_development_dependency('pry')
-  elsif RUBY_VERSION < '1.9'
-    # 1.8.7
-    s.add_development_dependency('ruby-debug', '~> 0.10.4')
-  elsif RUBY_VERSION < '2.0'
-    # 1.9.x
-    s.add_development_dependency('debugger-linecache', '~> 1.2.0')
-    s.add_development_dependency('debugger', '~> 1.6.4')
-  elsif RUBY_VERSION < '2.1'
-    # 2.0.x
-    s.add_development_dependency('byebug', '~> 2.1.1')
-  else
-    # 2.1.x, 2.2.x
-    s.add_development_dependency('pry-byebug')
-  end
 end
